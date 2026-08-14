@@ -110,10 +110,33 @@ body {
   color: var(--ink);
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
+  position: relative;
 }
+/* soft decorative glow, fixed behind all content — purely atmospheric, never
+   carries information, so it's exempt from the chart-color rules */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(720px 420px at 14% -6%, var(--blob-a), transparent 60%),
+    radial-gradient(640px 460px at 100% 8%, var(--blob-b), transparent 60%);
+}
+.app-shell { position: relative; z-index: 1; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; }
 svg text { font-family: var(--font-ui); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+#app-root.page-enter { animation: fadeInUp .38s cubic-bezier(.2,.8,.2,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  #app-root.page-enter { animation: none; }
+}
 
 /* ---------- App shell ---------- */
 .app-shell {
