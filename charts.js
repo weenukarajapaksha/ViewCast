@@ -199,6 +199,54 @@ function renderBarCompare(container, rows, opts = {}) {
 }
 
 /* ==========================================================================
+   Multi-series growth overlay (History "compare selected"). Capped at 3
+   series by the caller — the categorical palette's first 3 slots are the
+   ones validated for all-pairs CVD separation.
+   ========================================================================== */
+function renderMultiGrowthChart(container, series, opts = {}) {
+  container.innerHTML = '';
+  const w = opts.width || 640, h = opts.height || 260;
+  const pad = { l: 46, r: 16, t: 16, b: 28 };
+  const plotW = w - pad.l - pad.r, plotH = h - pad.t - pad.b;
+  const n = series[0].checkpoints.length;
+  const maxY = Math.max(...series.flatMap(s => s.checkpoints.map(c => c.views))) * 1.08;
+  const x = scaleLinear([0, n - 1], [pad.l, pad.l + plotW]);
+  const y = scaleLinear([0, maxY], [pad.t + plotH, pad.t]);
+
+  const svg = svgNode('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', height: h });
+  const ticks = 4;
+  for (let i = 0; i <= ticks; i++) {
+    const val = (maxY / ticks) * i;
+    const gy = y(val);
+    svg.appendChild(svgNode('line', { x1: pad.l, x2: pad.l + plotW, y1: gy, y2: gy, stroke: 'var(--hairline)', 'stroke-width': 1 }));
+    const label = svgNode('text', { x: pad.l - 8, y: gy + 4, 'text-anchor': 'end', 'font-size': 10.5, fill: 'var(--muted)' });
+    label.textContent = formatCompact(val);
+    svg.appendChild(label);
+  }
+  series[0].checkpoints.forEach((c, i) => {
+    const label = svgNode('text', { x: x(i), y: h - 6, 'text-anchor': 'middle', 'font-size': 10.5, fill: 'var(--muted)' });
+    label.textContent = c.label;
+    svg.appendChild(label);
+  });
+
+  series.forEach((s) => {
+    const pts = s.checkpoints.map((c, i) => `${x(i)},${y(c.views)}`).join(' ');
+    svg.appendChild(svgNode('polyline', { points: pts, fill: 'none', stroke: s.color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+    s.checkpoints.forEach((c, i) => {
+      const cx = x(i), cy = y(c.views);
+      const dot = svgNode('circle', { cx, cy, r: 4, fill: s.color, stroke: 'var(--surface)', 'stroke-width': 2 });
+      const hit = svgNode('circle', { cx, cy, r: 10, fill: 'transparent', style: 'cursor:pointer' });
+      hit.addEventListener('mousemove', (e) => showTooltip(e.clientX, e.clientY, `<strong>${s.label}</strong><br>${c.label}: ${formatCompact(c.views)} views`));
+      hit.addEventListener('mouseleave', hideTooltip);
+      svg.appendChild(dot);
+      svg.appendChild(hit);
+    });
+  });
+
+  container.appendChild(svg);
+}
+
+/* ==========================================================================
    Histogram: score distribution across prediction history (single hue,
    sequential — magnitude, not identity).
    ========================================================================== */
