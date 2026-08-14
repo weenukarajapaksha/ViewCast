@@ -171,6 +171,12 @@ function renderGauge(container, score, tone, opts = {}) {
   });
   svg.appendChild(arc);
   container.appendChild(svg);
+
+  const label = document.createElement('div');
+  label.className = 'gauge-value';
+  label.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;';
+  label.textContent = score;
+  container.appendChild(label);
 }
 
 /* ==========================================================================
