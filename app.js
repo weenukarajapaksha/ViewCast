@@ -46,6 +46,8 @@ function initTheme() {
 function setTheme(mode) {
   localStorage.setItem(THEME_KEY, mode);
   applyTheme(mode);
+  const label = document.getElementById('theme-quick-label');
+  if (label) label.textContent = 'Theme: ' + mode[0].toUpperCase() + mode.slice(1);
 }
 function getTheme() { return localStorage.getItem(THEME_KEY) || 'system'; }
 
