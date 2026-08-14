@@ -92,7 +92,11 @@ function renderGrowthChart(container, checkpoints, opts = {}) {
 
   // main line
   const linePts = checkpoints.map((c, i) => `${x(i)},${y(c.views)}`).join(' ');
-  svg.appendChild(svgNode('polyline', { points: linePts, fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+  svg.appendChild(svgNode('polyline', {
+    points: linePts, fill: 'none', stroke: color, 'stroke-width': 2.5,
+    'stroke-linejoin': 'round', 'stroke-linecap': 'round',
+    style: `filter: drop-shadow(0 1px 4px ${color}55);`,
+  }));
 
   // x-axis labels + markers
   checkpoints.forEach((c, i) => {
@@ -163,11 +167,13 @@ function renderGauge(container, score, tone, opts = {}) {
   const frac = Math.max(0, Math.min(1, score / 100));
   const svg = svgNode('svg', { viewBox: `0 0 ${size} ${size}`, width: size, height: size, role: 'img', 'aria-label': `Performance score ${score} of 100` });
   svg.appendChild(svgNode('circle', { cx, cy, r, fill: 'none', stroke: 'var(--hairline)', 'stroke-width': stroke }));
+  const color = toneColor(tone);
   const arc = svgNode('circle', {
-    cx, cy, r, fill: 'none', stroke: toneColor(tone), 'stroke-width': stroke,
+    cx, cy, r, fill: 'none', stroke: color, 'stroke-width': stroke,
     'stroke-linecap': 'round',
     'stroke-dasharray': `${circumference * frac} ${circumference}`,
     transform: `rotate(-90 ${cx} ${cy})`,
+    style: `filter: drop-shadow(0 0 5px ${color}88);`,
   });
   svg.appendChild(arc);
   container.appendChild(svg);

@@ -40,7 +40,7 @@ function applyTheme(mode) {
   else root.removeAttribute('data-theme');
 }
 function initTheme() {
-  const saved = localStorage.getItem(THEME_KEY) || 'system';
+  const saved = localStorage.getItem(THEME_KEY) || 'dark';
   applyTheme(saved);
 }
 function setTheme(mode) {
@@ -49,7 +49,7 @@ function setTheme(mode) {
   const label = document.getElementById('theme-quick-label');
   if (label) label.textContent = 'Theme: ' + mode[0].toUpperCase() + mode.slice(1);
 }
-function getTheme() { return localStorage.getItem(THEME_KEY) || 'system'; }
+function getTheme() { return localStorage.getItem(THEME_KEY) || 'dark'; }
 
 /* ---------- router ---------- */
 function parseHash() {
