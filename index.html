@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ViewCast — YouTube performance predictions</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%232a78d6'/%3E%3Cpath d='M25 65 L42 45 L58 58 L78 30' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">V</div>
+        <div>
+          <div class="brand-name">ViewCast</div>
+          <div class="brand-tag">Video performance predictions</div>
+        </div>
+      </div>
+
+      <a class="nav-link" href="#/" data-route="predict"><span class="nav-icon">🔮</span> Predict</a>
+      <a class="nav-link" href="#/history" data-route="history"><span class="nav-icon">☰</span> History</a>
+      <a class="nav-link" href="#/insights" data-route="insights"><span class="nav-icon">📊</span> Insights</a>
+      <a class="nav-link" href="#/settings" data-route="settings"><span class="nav-icon">⚙</span> Settings</a>
+
+      <div class="sidebar-footer">
+        <div class="engine-pill"><span class="engine-dot"></span> Demo model — synthetic data</div>
+        <button class="theme-toggle" id="theme-quick-toggle" type="button">
+          <span id="theme-quick-label">Theme: System</span> <span>◐</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div id="app-root"></div>
+    </main>
+  </div>
+
+  <script src="engine.js"></script>
+  <script src="charts.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // quick-toggle in the sidebar cycles system -> light -> dark -> system
+    document.getElementById('theme-quick-toggle').addEventListener('click', () => {
+      const order = ['system', 'light', 'dark'];
+      const next = order[(order.indexOf(getTheme()) + 1) % order.length];
+      setTheme(next);
+      updateQuickLabel();
+    });
+    function updateQuickLabel() {
+      const t = getTheme();
+      document.getElementById('theme-quick-label').textContent = 'Theme: ' + t[0].toUpperCase() + t.slice(1);
+    }
+    window.addEventListener('DOMContentLoaded', updateQuickLabel);
+  </script>
+</body>
+</html>
