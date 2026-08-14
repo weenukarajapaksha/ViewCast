@@ -44,14 +44,9 @@
     document.getElementById('theme-quick-toggle').addEventListener('click', () => {
       const order = ['system', 'light', 'dark'];
       const next = order[(order.indexOf(getTheme()) + 1) % order.length];
-      setTheme(next);
-      updateQuickLabel();
+      setTheme(next); // also refreshes this label
     });
-    function updateQuickLabel() {
-      const t = getTheme();
-      document.getElementById('theme-quick-label').textContent = 'Theme: ' + t[0].toUpperCase() + t.slice(1);
-    }
-    window.addEventListener('DOMContentLoaded', updateQuickLabel);
+    window.addEventListener('DOMContentLoaded', () => setTheme(getTheme()));
   </script>
 </body>
 </html>
