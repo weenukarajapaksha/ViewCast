@@ -245,9 +245,7 @@ function renderResultsContent(root, record) {
           </div>
         </div>
         <div class="gauge-wrap">
-          <div id="score-gauge" style="position:relative;">
-            <div class="gauge-value" id="gauge-value-label" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">${p.score}</div>
-          </div>
+          <div id="score-gauge" style="position:relative;"></div>
           <div class="gauge-label" style="color:var(--${p.verdictTone === 'good' ? 'success-text' : p.verdictTone})">${p.verdict}</div>
         </div>
       </div>
