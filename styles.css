@@ -162,10 +162,11 @@ svg text { font-family: var(--font-ui); }
   padding: 6px 10px 20px;
 }
 .brand-mark {
-  width: 30px; height: 30px; border-radius: 9px;
-  background: linear-gradient(135deg, var(--series-views), var(--series-comments));
+  width: 32px; height: 32px; border-radius: 10px;
+  background: var(--accent-gradient);
   display: flex; align-items: center; justify-content: center;
   color: #fff; font-weight: 700; font-size: 15px; flex: none;
+  box-shadow: 0 4px 14px var(--glow-accent);
 }
 .brand-name { font-weight: 650; font-size: 16.5px; letter-spacing: -0.01em; }
 .brand-tag { font-size: 11px; color: var(--muted); margin-top: 1px; }
@@ -178,11 +179,21 @@ svg text { font-family: var(--font-ui); }
   font-size: 14px;
   font-weight: 520;
   cursor: pointer;
+  position: relative;
+  transition: background .15s ease, color .15s ease;
 }
-.nav-link .nav-icon { width: 18px; text-align: center; font-size: 15px; flex: none; }
+.nav-link .nav-icon { width: 18px; text-align: center; font-size: 15px; flex: none; transition: transform .15s ease; }
 .nav-link:hover { background: var(--surface-2); color: var(--ink); }
-.nav-link.active { background: var(--surface-2); color: var(--ink); }
+.nav-link:hover .nav-icon { transform: scale(1.08); }
+.nav-link.active { background: var(--surface-2); color: var(--ink); font-weight: 620; }
 .nav-link.active .nav-icon { color: var(--series-views); }
+.nav-link.active::before {
+  content: "";
+  position: absolute; left: -14px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 18px; border-radius: 0 3px 3px 0;
+  background: var(--accent-gradient);
+}
+@media (max-width: 860px) { .nav-link.active::before { display: none; } }
 
 .sidebar-footer {
   margin-top: auto;
@@ -236,7 +247,10 @@ svg text { font-family: var(--font-ui); }
   border: 1px solid var(--hairline);
   border-radius: var(--radius-lg);
   padding: 20px;
+  box-shadow: var(--shadow-1);
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
 }
+.card:hover { box-shadow: var(--shadow-hover); border-color: var(--border); }
 .card + .card { margin-top: 16px; }
 .grid { display: grid; gap: 16px; }
 .grid-2 { grid-template-columns: 1fr 1fr; }
