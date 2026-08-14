@@ -410,12 +410,13 @@ table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .data-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); font-weight: 600; padding: 8px 10px; border-bottom: 1px solid var(--hairline); cursor: pointer; user-select: none; }
 .data-table th:hover { color: var(--ink); }
 .data-table td { padding: 10px; border-bottom: 1px solid var(--hairline); vertical-align: middle; }
+.data-table td, .data-table tr { transition: background .12s ease; }
 .data-table tr:hover td { background: var(--surface-2); }
 .data-table tr { cursor: pointer; }
 .dt-thumb { width: 56px; height: 34px; border-radius: 6px; object-fit: cover; background: var(--surface-2); }
 .dt-title-cell { display: flex; align-items: center; gap: 10px; }
 .dt-title-text { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.score-chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 650; color: #fff; }
+.score-chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 650; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.28); }
 
 .filter-row { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
 
